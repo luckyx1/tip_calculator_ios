@@ -12,13 +12,15 @@ class ViewController: UIViewController {
     
     //references to outlets //
     @IBOutlet weak var billLabel: UITextField!
-    @IBOutlet weak var tipLabel: UILabel!
-    @IBOutlet weak var totalLabel: UILabel!
-    @IBOutlet weak var tipControl: UISegmentedControl!
-    
+    @IBOutlet weak var fiveLabel: UILabel!
+    @IBOutlet weak var tenLabel: UILabel!
+    @IBOutlet weak var fifthteenLabel: UILabel!
+    @IBOutlet weak var customLabel: UILabel!
+    @IBOutlet weak var splitLabel: UILabel!
+
     
     // General Gloabl vars //
-    let tipArray = [0.15, 0.20, 0.25]
+    let tipArray = [0.05, 0.10, 0.15]
 
     
     // Functions ///
@@ -26,10 +28,8 @@ class ViewController: UIViewController {
     // To set the title of the Navigation Bar
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Sets the title in the Navigation Bar
         self.title = "Tip Calculator"
-        self.setDefaultValuesForTipControl()
     }
     
     func setDefaultValuesForTipControl(){
@@ -65,26 +65,31 @@ class ViewController: UIViewController {
     @IBAction func calculateTip(_ sender: Any) {
         // First compute the amount
         let bill = Double(billLabel.text!) ?? 0
-        let tip = bill * getTipAmount()
-        let total = bill + tip
+//        setLabel(num: 5, bill: bill)
+//        setLabel(num: 10, bill: bill)
+//        setLabel(num: 15, bill: bill)
         
-        // Set the text of the labels
-        tipLabel.text = String(format: "$%.2f", tip)
-        totalLabel.text = String(format: "$%.2f", total)
-    }
-
-    // I could not link two functions to the same,
-    // So I manually called the previous fun on change
-    @IBAction func updateTipOnChange(_ sender: Any) {
-        calculateTip(sender: sender)
     }
     
-    // queries which option was select, and determines the percentage
-    // as a result
-    func getTipAmount() -> Double{
-        let defaults = UserDefaults.standard
-        let str = "\(tipControl.selectedSegmentIndex + 1)"
-        return defaults.double(forKey: str)
-    }
+//    func calculateTipFor(tipAmount: Int,bill: Double) -> Double{
+//        return bill * Double((tipAmount/100))
+//    }
+//    
+//    func setLabel(num: Int, bill: Double){
+//        let tip = calculateTipFor(tipAmount: num, bill: bill)
+//        switch num{
+//        case 5:
+//            fiveLabel.text = String(format: "$%.2f", tip)
+//        case 10:
+//            tenLabel.text = String(format: "$%.2f", tip)
+//        case 15:
+//            fifthteenLabel.text = String(format: "$%.2f", tip)
+//        default:
+//            customLabel.text = String(format: "$%.2f", tip)
+//        }
+//    }
+
+
+
 }
 
