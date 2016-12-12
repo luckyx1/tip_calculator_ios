@@ -23,6 +23,39 @@ class ViewController: UIViewController {
     
     // Functions ///
     
+    // To set the title of the Navigation Bar
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Sets the title in the Navigation Bar
+        self.title = "Tip Calculator"
+        self.setDefaultValuesForTipControl()
+    }
+    
+    func setDefaultValuesForTipControl(){
+        let defaults = UserDefaults.standard
+        let appDomain = Bundle.main.bundleIdentifier!
+
+        defaults.removePersistentDomain(forName: appDomain)
+        for num in 1...3{
+            let str = "\(num)"
+            if defaults.object(forKey: str) == nil{
+                switch num{
+                    case 1:
+                        defaults.set(0.15, forKey: str)
+                    case 2:
+                        defaults.set(0.2, forKey: str)
+                    case 3:
+                        defaults.set(0.25, forKey: str)
+                    default:
+                        break
+                }
+            }
+        }
+        defaults.synchronize()
+    }
+ 
+
     // Removes the Keyboard when editing text
     @IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
@@ -49,7 +82,9 @@ class ViewController: UIViewController {
     // queries which option was select, and determines the percentage
     // as a result
     func getTipAmount() -> Double{
-        return tipArray[tipControl.selectedSegmentIndex]
+        let defaults = UserDefaults.standard
+        let str = "\(tipControl.selectedSegmentIndex + 1)"
+        return defaults.double(forKey: str)
     }
 }
 

@@ -12,6 +12,7 @@
 		4838045B1DFCACB900ED22D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 483804591DFCACB900ED22D8 /* Main.storyboard */; };
 		4838045D1DFCACB900ED22D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4838045C1DFCACB900ED22D8 /* Assets.xcassets */; };
 		483804601DFCACB900ED22D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4838045E1DFCACB900ED22D8 /* LaunchScreen.storyboard */; };
+		4842C22C1DFDF667006930F7 /* SetttingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4842C22B1DFDF667006930F7 /* SetttingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		4838045C1DFCACB900ED22D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4838045F1DFCACB900ED22D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		483804611DFCACB900ED22D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4842C22B1DFDF667006930F7 /* SetttingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetttingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				483804551DFCACB900ED22D8 /* AppDelegate.swift */,
 				483804571DFCACB900ED22D8 /* ViewController.swift */,
+				4842C22B1DFDF667006930F7 /* SetttingsViewController.swift */,
 				483804591DFCACB900ED22D8 /* Main.storyboard */,
 				4838045C1DFCACB900ED22D8 /* Assets.xcassets */,
 				4838045E1DFCACB900ED22D8 /* LaunchScreen.storyboard */,
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4842C22C1DFDF667006930F7 /* SetttingsViewController.swift in Sources */,
 				483804581DFCACB900ED22D8 /* ViewController.swift in Sources */,
 				483804561DFCACB900ED22D8 /* AppDelegate.swift in Sources */,
 			);
@@ -300,6 +304,7 @@
 				483804661DFCACB900ED22D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
