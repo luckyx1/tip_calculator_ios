@@ -11,12 +11,14 @@ import UIKit
 class ViewController: UIViewController {
     
     //references to outlets //
+
     @IBOutlet weak var billLabel: UITextField!
-    @IBOutlet weak var tipLabel: UILabel!
+    
+    @IBOutlet weak var tipLabel: UITextField!
+    
+    @IBOutlet weak var shareLabel: UILabel!
+    
     @IBOutlet weak var totalLabel: UILabel!
-    @IBOutlet weak var tipControl: UISegmentedControl!
-    
-    
     // General Gloabl vars //
     let tipArray = [0.15, 0.20, 0.25]
 
@@ -29,29 +31,25 @@ class ViewController: UIViewController {
         
         // Sets the title in the Navigation Bar
         self.title = "Tip Calculator"
-        self.setDefaultValuesForTipControl()
+        // set the focus to the bill, with keyboard enabled
+        
+        // set the tip to 15 if not set
+        self.setDefaultValues()
+        
+        // hide each person, unless each person is greater than 1
+        
     }
     
-    func setDefaultValuesForTipControl(){
+    func setDefaultValues(){
         let defaults = UserDefaults.standard
         let appDomain = Bundle.main.bundleIdentifier!
-
         defaults.removePersistentDomain(forName: appDomain)
-        for num in 1...3{
-            let str = "\(num)"
-            if defaults.object(forKey: str) == nil{
-                switch num{
-                    case 1:
-                        defaults.set(0.15, forKey: str)
-                    case 2:
-                        defaults.set(0.2, forKey: str)
-                    case 3:
-                        defaults.set(0.25, forKey: str)
-                    default:
-                        break
-                }
-            }
+        
+        if defaults.object(forKey: "default_tip") == nil{
+            defaults.set(0.15, forKey: "default_tip")
+            tipLabel.text = "\(Int(0.15 * 100))"
         }
+        
         defaults.synchronize()
     }
  
@@ -60,31 +58,30 @@ class ViewController: UIViewController {
     @IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
     }
-    
-    // Calcuate the tip based on the input
-    @IBAction func calculateTip(_ sender: Any) {
-        // First compute the amount
+
+    @IBAction func setTipPercent(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        if let tip = Double(tipLabel.text!) {
+            let tipAmount: Double =  tip/100
+            defaults.set(tipAmount, forKey: "default_tip")
+        }else{
+            defaults.set(0.0, forKey: "default_tip")
+        }
+        defaults.synchronize()
+        self.calculateTotal(sender: sender)
+    }
+
+
+    @IBAction func calculateTotal(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        let tip = defaults.double(forKey: "default_tip")
         let bill = Double(billLabel.text!) ?? 0
-        let tip = bill * getTipAmount()
-        let total = bill + tip
-        
-        // Set the text of the labels
-        tipLabel.text = String(format: "$%.2f", tip)
+        let total:Double = bill + (bill * tip)
         totalLabel.text = String(format: "$%.2f", total)
     }
 
-    // I could not link two functions to the same,
-    // So I manually called the previous fun on change
-    @IBAction func updateTipOnChange(_ sender: Any) {
-        calculateTip(sender: sender)
-    }
+
     
-    // queries which option was select, and determines the percentage
-    // as a result
-    func getTipAmount() -> Double{
-        let defaults = UserDefaults.standard
-        let str = "\(tipControl.selectedSegmentIndex + 1)"
-        return defaults.double(forKey: str)
-    }
+
 }
 

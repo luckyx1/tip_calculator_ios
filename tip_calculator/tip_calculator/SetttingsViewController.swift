@@ -8,16 +8,14 @@
 
 import UIKit
 
-class SetttingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class SetttingsViewController: UIViewController {
 
-    @IBOutlet weak var Selection: UIPickerView!
     var arr: [Double] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setArray()
-        Selection.delegate = self
-        Selection.dataSource = self
+
     }
     
     func setArray(){
@@ -29,19 +27,7 @@ class SetttingsViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         }
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let str = "\(arr[row])"
-        return str
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return arr.count
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
+
 
     
 
