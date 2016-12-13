@@ -10,24 +10,70 @@ import UIKit
 
 class SetttingsViewController: UIViewController {
 
-    var arr: [Double] = []
+
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setArray()
-
+        // check if split among had been set before
+//        self.setSplit()
+        // check if switch was set before
+//        self.setToggle()
     }
     
-    func setArray(){
+
+    
+    @IBAction func splitBill(_ sender: Any) {
+//        let defaults = UserDefaults.standard
+//        if let people = Int(amountLabel.text!) {
+//            if people > 0{
+//                defaults.set(people, forKey: "split_amount")
+//            }else{
+//                defaults.set(1, forKey: "split_amount")
+//            }
+//        }else{
+//            defaults.set(1, forKey: "split_amount")
+//        }
+//        defaults.synchronize()
+    }
+
+    @IBAction func toggled(_ sender: Any) {
+//        let defaults = UserDefaults.standard
+//        if switchLabel.isOn{
+//            defaults.set(true, forKey: "show_split")
+//        }else{
+//            defaults.set(false, forKey: "show_split")
+//        }
+//        defaults.synchronize()
+    }
+    
+    func setSplit(){
         let defaults = UserDefaults.standard
-        arr = []
-        for num in 1...3{
-            let str = "\(num)"
-            arr += [defaults.double(forKey: str)]
-        }
+//
+//        if defaults.object(forKey: "split_amount") == nil{
+//            defaults.set(1, forKey: "split_amount")
+//            amountLabel.text = "\(1)"
+//            defaults.synchronize()
+//        }else{
+//            let amount = defaults.integer(forKey: "split_amount")
+//            amountLabel.text = "\(amount)"
+//        }
+
     }
     
+    func setToggle(){
+        let defaults = UserDefaults.standard
+//
+//        if defaults.object(forKey: "show_split") == nil{
+//            defaults.set(false, forKey: "show_split")
+//            switchLabel.setOn(false, animated: true)
+//            defaults.synchronize()
+//        }else{
+//            let toggled = defaults.bool(forKey: "show_split")
+//            switchLabel.setOn(toggled, animated: true)
+//        }
 
+    }
 
     
 

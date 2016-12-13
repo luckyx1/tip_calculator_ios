@@ -8,22 +8,22 @@
 
 import UIKit
 
+
+
 class ViewController: UIViewController {
     
     //references to outlets //
-
-    @IBOutlet weak var billLabel: UITextField!
-    
+    @IBOutlet weak var peopleLabel: UITextField!
+    @IBOutlet weak var subtotalLabel: UITextField!
     @IBOutlet weak var tipLabel: UITextField!
-    
-    @IBOutlet weak var shareLabel: UILabel!
-    
     @IBOutlet weak var totalLabel: UILabel!
-    // General Gloabl vars //
-    let tipArray = [0.15, 0.20, 0.25]
+    @IBOutlet weak var payPerLabel: UILabel!
 
     
     // Functions ///
+    
+
+
     
     // To set the title of the Navigation Bar
     override func viewDidLoad() {
@@ -31,26 +31,31 @@ class ViewController: UIViewController {
         
         // Sets the title in the Navigation Bar
         self.title = "Tip Calculator"
+        
         // set the focus to the bill, with keyboard enabled
         
         // set the tip to 15 if not set
-        self.setDefaultValues()
+//        self.setDefaultTip()
         
-        // hide each person, unless each person is greater than 1
-        
+        // hide each person, unless enbaled
+//        self.showSplit()
     }
     
-    func setDefaultValues(){
+    func setDefaultTip(){
         let defaults = UserDefaults.standard
         let appDomain = Bundle.main.bundleIdentifier!
         defaults.removePersistentDomain(forName: appDomain)
         
-        if defaults.object(forKey: "default_tip") == nil{
-            defaults.set(0.15, forKey: "default_tip")
-            tipLabel.text = "\(Int(0.15 * 100))"
-        }
+//        if defaults.object(forKey: "default_tip") == nil{
+//            defaults.set(0.15, forKey: "default_tip")
+//            tipLabel.text = "\(Int(0.15 * 100))"
+//            defaults.synchronize()
+//
+//        }else{
+//            let tip = defaults.double(forKey: "default_tip")
+//            tipLabel.text = "\(Int(tip * 100))"
+//        }
         
-        defaults.synchronize()
     }
  
 
@@ -61,23 +66,37 @@ class ViewController: UIViewController {
 
     @IBAction func setTipPercent(_ sender: Any) {
         let defaults = UserDefaults.standard
-        if let tip = Double(tipLabel.text!) {
-            let tipAmount: Double =  tip/100
-            defaults.set(tipAmount, forKey: "default_tip")
-        }else{
-            defaults.set(0.0, forKey: "default_tip")
-        }
-        defaults.synchronize()
-        self.calculateTotal(sender: sender)
+//        if let tip = Double(tipLabel.text!) {
+//            let tipAmount: Double =  tip/100
+//            defaults.set(tipAmount, forKey: "default_tip")
+//        }else{
+//            defaults.set(0.0, forKey: "default_tip")
+//        }
+//        defaults.synchronize()
+//        self.calculateTotal(sender: sender)
     }
 
 
     @IBAction func calculateTotal(_ sender: Any) {
         let defaults = UserDefaults.standard
-        let tip = defaults.double(forKey: "default_tip")
-        let bill = Double(billLabel.text!) ?? 0
-        let total:Double = bill + (bill * tip)
-        totalLabel.text = String(format: "$%.2f", total)
+//        let tip = defaults.double(forKey: "default_tip")
+//        let bill = Double(billLabel.text!) ?? 0
+//        let total:Double = bill + (bill * tip)
+//        totalLabel.text = String(format: "$%.2f", total)
+    }
+    
+    func showSplit(){
+        let defaults = UserDefaults.standard
+
+//        if defaults.object(forKey: "show_split") == nil{
+//            shareLabel.isHidden = true
+//            shareMg.isHidden = true
+//            
+//        }else{
+//            let toggled = defaults.bool(forKey: "show_split")
+//            shareLabel.isHidden = !toggled
+//            shareMg.isHidden = !toggled
+//        }
     }
 
 
