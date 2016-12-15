@@ -10,72 +10,52 @@ import UIKit
 
 class SetttingsViewController: UIViewController {
 
-
-
+    @IBOutlet weak var morningLabel: UILabel!
+    @IBOutlet weak var blueberryLabel: UILabel!
+    @IBOutlet weak var siestaLabel: UILabel!
+    var option: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // check if split among had been set before
-//        self.setSplit()
-        // check if switch was set before
-//        self.setToggle()
-    }
-    
-
-    
-    @IBAction func splitBill(_ sender: Any) {
-//        let defaults = UserDefaults.standard
-//        if let people = Int(amountLabel.text!) {
-//            if people > 0{
-//                defaults.set(people, forKey: "split_amount")
-//            }else{
-//                defaults.set(1, forKey: "split_amount")
-//            }
-//        }else{
-//            defaults.set(1, forKey: "split_amount")
-//        }
-//        defaults.synchronize()
-    }
-
-    @IBAction func toggled(_ sender: Any) {
-//        let defaults = UserDefaults.standard
-//        if switchLabel.isOn{
-//            defaults.set(true, forKey: "show_split")
-//        }else{
-//            defaults.set(false, forKey: "show_split")
-//        }
-//        defaults.synchronize()
-    }
-    
-    func setSplit(){
-        let defaults = UserDefaults.standard
-//
-//        if defaults.object(forKey: "split_amount") == nil{
-//            defaults.set(1, forKey: "split_amount")
-//            amountLabel.text = "\(1)"
-//            defaults.synchronize()
-//        }else{
-//            let amount = defaults.integer(forKey: "split_amount")
-//            amountLabel.text = "\(amount)"
-//        }
-
-    }
-    
-    func setToggle(){
-        let defaults = UserDefaults.standard
-//
-//        if defaults.object(forKey: "show_split") == nil{
-//            defaults.set(false, forKey: "show_split")
-//            switchLabel.setOn(false, animated: true)
-//            defaults.synchronize()
-//        }else{
-//            let toggled = defaults.bool(forKey: "show_split")
-//            switchLabel.setOn(toggled, animated: true)
-//        }
+        // load from memory option selected
 
     }
 
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // save option before switching
+    }
+    
+
+    // clear options selected
+    func clearAllSelected(){
+        let labels = [morningLabel, blueberryLabel, siestaLabel]
+        for label in labels{
+            label?.textColor = UIColor.white
+        }
+        option = ""
+    }
+    
+
+    @IBAction func morningMistClicked(_ sender: Any) {
+        self.clearAllSelected()
+        morningLabel.textColor = UIColor.orange
+        option = "morning"
+    }
+  
+
+    @IBAction func blueberryClicked(_ sender: Any) {
+        self.clearAllSelected()
+        blueberryLabel.textColor = UIColor.orange
+        option = "blueberry"
+    }
+    
+    @IBAction func siestaClicked(_ sender: Any) {
+        self.clearAllSelected()
+        siestaLabel.textColor = UIColor.orange
+        option = "siesta"
+    }
 
 
 
