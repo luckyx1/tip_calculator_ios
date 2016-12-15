@@ -18,6 +18,8 @@ class SetttingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // load from memory option selected
+        self.loadBG()
+
 
     }
 
@@ -25,8 +27,40 @@ class SetttingsViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // save option before switching
+        self.saveBG()
+
     }
     
+    func loadBG(){
+        let defaults = UserDefaults.standard
+        let background = defaults.string(forKey: "bg_option")
+        if let bg = background{
+            print("loading in setting, and its \(bg)")
+            option = bg
+            switch(bg){
+                case "morning":
+                    morningLabel.textColor = UIColor.orange
+                case "blueberry":
+                    blueberryLabel.textColor = UIColor.orange
+                case "siesta":
+                    siestaLabel.textColor = UIColor.orange
+                default:
+                    morningLabel.textColor = UIColor.orange
+            }
+        }else{
+            print("couldnt load, loading default in setting")
+            option = "morning"
+            morningLabel.textColor = UIColor.orange
+        }
+    }
+    
+    func saveBG(){
+        let defaults = UserDefaults.standard
+        print("saving background in setting \(option)")
+        defaults.set(option, forKey: "bg_option")
+        defaults.synchronize()
+        
+    }
 
     // clear options selected
     func clearAllSelected(){

@@ -44,6 +44,7 @@ class ViewController: UIViewController {
     
     var grandTotal: Double = 0.00
     let DEFAULT_PERSON = 1
+    let TEN_MINUTES:Double = 600
 
     
     // Functions ///
@@ -70,38 +71,108 @@ class ViewController: UIViewController {
         calculateTotal()
         calculatePerPerson()
     }
+    
+    func saveData(){
+        let defaults = UserDefaults.standard
+        let bill = Double(subtotalLabel.text!) ?? 0
+        let gratuity = Int(tipLabel.text!) ?? 0
+        print("I am saving data. Subtotal: \(bill)  Tip: \(gratuity)")
+
+
+        defaults.set(bill, forKey: "subtotal")
+        defaults.set(gratuity, forKey: "tip")
+        defaults.synchronize()
+    }
+    
+    func loadData(){
+        let defaults = UserDefaults.standard
+        let subtotal = defaults.double(forKey: "subtotal")
+        let tip = defaults.integer(forKey: "tip")
+        print("I am loading data. Subtotal: \(subtotal)  Tip: \(tip)")
+
+        subtotalLabel.text = String(format: "%.2f", subtotal)
+        tipLabel.text = String(format: "%d", tip)
+        
+        self.calculateTotal()
+    }
+    
+    func casheDataForTenMin(){
+        let defaults = UserDefaults.standard
+        let current_time = NSDate()
+        let previous = defaults.object(forKey: "last_used") as? NSDate
+        if let prev = previous{
+            let timeInterval: Double = current_time.timeIntervalSince(prev as Date);
+            if(timeInterval > TEN_MINUTES){
+                print("10 minutes passed, time to clear")
+                let appDomain = Bundle.main.bundleIdentifier!
+                defaults.removePersistentDomain(forName: appDomain)
+            }
+        }else{
+            print("I am setting the time to cache \(current_time)")
+            defaults.set(current_time, forKey: "last_used")
+            defaults.synchronize()
+        }
+        
+    }
+    
+    func setBackground(){
+        let defaults = UserDefaults.standard
+
+        let background = defaults.string(forKey: "bg_option")
+        if let bg = background{
+            print("background found in viewcontroller: \(bg)")
+            switch(bg){
+                case "morning":
+                    self.setMorningMist()
+                case "blueberry":
+                    self.setBlueBerry()
+                case "siesta":
+                    self.setSiesta()
+                default:
+                    self.setMorningMist()
+            }
+        }else{
+            print("background not found, setting to default")
+            defaults.set("morning", forKey: "bg_option")
+            defaults.synchronize()
+            self.setMorningMist()
+        }
+    }
 
 
     
     // To set the title of the Navigation Bar
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // check if 10 minutes passed
+        self.casheDataForTenMin()
+
+     
         // Sets the title in the Navigation Bar
         self.title = "Tip Calculator"
         
         // Set the default Background
-        self.setSiesta()
+        self.setBackground()
         
         // load the values from memory
+        self.loadData()
     }
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         // set the background here
-        
-        // place the values saved here
+        self.setBackground()
+        // load the data here
+        self.loadData()
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // save the values here
+        // save the data here
+        self.saveData()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
  
 
     // Removes the Keyboard when editing text
@@ -132,23 +203,6 @@ class ViewController: UIViewController {
         doCalculations()
     }
     
-    
-    func setDefaultTip(){
-        //let defaults = UserDefaults.standard
-        //let appDomain = Bundle.main.bundleIdentifier!
-        //defaults.removePersistentDomain(forName: appDomain)
-        
-        //        if defaults.object(forKey: "default_tip") == nil{
-        //            defaults.set(0.15, forKey: "default_tip")
-        //            tipLabel.text = "\(Int(0.15 * 100))"
-        //            defaults.synchronize()
-        //
-        //        }else{
-        //            let tip = defaults.double(forKey: "default_tip")
-        //            tipLabel.text = "\(Int(tip * 100))"
-        //        }
-        
-    }
     
     // Code to set the background
     func setMorningMist(){
