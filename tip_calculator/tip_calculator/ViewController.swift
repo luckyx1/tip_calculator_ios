@@ -16,10 +16,10 @@ extension UIColor {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
         assert(blue >= 0 && blue <= 255, "Invalid blue component")
-        
+
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
     }
-    
+
     convenience init(netHex:Int) {
         self.init(red:(netHex >> 16) & 0xff, green:(netHex >> 8) & 0xff, blue:netHex & 0xff)
     }
@@ -28,28 +28,30 @@ extension UIColor {
 
 
 class ViewController: UIViewController {
-    
+
     //references to outlets(Labels) //
     @IBOutlet weak var peopleLabel: UITextField!
     @IBOutlet weak var subtotalLabel: UITextField!
     @IBOutlet weak var tipLabel: UITextField!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var payPerLabel: UILabel!
-    
+
     // Set background color of the views
     @IBOutlet weak var topLabel: UIView!
     @IBOutlet weak var midLabel: UIView!
     @IBOutlet weak var bottomLabel: UIView!
-    
-    
+
+    // an instance variable for the total
     var grandTotal: Double = 0.00
+    // My assumption that at least one person will pay the bill
     let DEFAULT_PERSON = 1
+    // A constant for the time to clear the UserDefaults
     let TEN_MINUTES:Double = 600
 
-    
+
     // Functions ///
-    
-    
+
+
     // Takes the subtotal & tip and determins the total afterwards
     func calculateTotal(){
         let bill = Double(subtotalLabel.text!) ?? 0
@@ -58,20 +60,21 @@ class ViewController: UIViewController {
         grandTotal = bill + (bill * tip)
         totalLabel.text = String(format: "$%.2f", grandTotal)
     }
-    
+
     // Takes the total preset before, and splits among the people inputted
     func calculatePerPerson(){
         let people  = Int(peopleLabel.text!) ?? DEFAULT_PERSON
         let per = (grandTotal / Double(people))
         payPerLabel.text = String(format: "$%.2f", per)
     }
-    
+
     // A helper method that calculates the total and then the split
     func doCalculations(){
         calculateTotal()
         calculatePerPerson()
     }
-    
+
+    // Save the subtotal and tip before closing the view
     func saveData(){
         let defaults = UserDefaults.standard
         let bill = Double(subtotalLabel.text!) ?? 0
@@ -83,7 +86,9 @@ class ViewController: UIViewController {
         defaults.set(gratuity, forKey: "tip")
         defaults.synchronize()
     }
-    
+
+
+    // load subtotal and tip when openning the view
     func loadData(){
         let defaults = UserDefaults.standard
         let subtotal = defaults.double(forKey: "subtotal")
@@ -92,10 +97,15 @@ class ViewController: UIViewController {
 
         subtotalLabel.text = String(format: "%.2f", subtotal)
         tipLabel.text = String(format: "%d", tip)
-        
+
+
+        // show total as a result of loading the data
         self.calculateTotal()
     }
-    
+
+
+    // attempt to clear the userdefaults if 10 minutes has passed in the app
+    // or else save the the last_login_date
     func casheDataForTenMin(){
         let defaults = UserDefaults.standard
         let current_time = NSDate()
@@ -112,9 +122,10 @@ class ViewController: UIViewController {
             defaults.set(current_time, forKey: "last_used")
             defaults.synchronize()
         }
-        
+
     }
-    
+
+    // set the background either set by the user, or the default
     func setBackground(){
         let defaults = UserDefaults.standard
 
@@ -140,22 +151,25 @@ class ViewController: UIViewController {
     }
 
 
-    
+
     // To set the title of the Navigation Bar
     override func viewDidLoad() {
         super.viewDidLoad()
         // check if 10 minutes passed
         self.casheDataForTenMin()
 
-     
+
         // Sets the title in the Navigation Bar
         self.title = "Tip Calculator"
-        
+
         // Set the default Background
         self.setBackground()
-        
+
         // load the values from memory
         self.loadData()
+
+        // set the subtotal as first responder
+        self.subtotalLabel.becomeFirstResponder()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -165,24 +179,24 @@ class ViewController: UIViewController {
         // load the data here
         self.loadData()
     }
-    
-    
+
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // save the data here
         self.saveData()
     }
-    
- 
+
+
 
     // Removes the Keyboard when editing text
     @IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
     }
-    
-    
+
+
     // Do calculations on determining how many people to split the bill
-    // It first validates that the user cannot set less that one person 
+    // It first validates that the user cannot set less that one person
     // paying, then does calculations
     @IBAction func peopleSet(_ sender: Any) {
         let people  = Int(peopleLabel.text!) ?? DEFAULT_PERSON
@@ -191,19 +205,19 @@ class ViewController: UIViewController {
         }
         doCalculations()
     }
-    
+
     // Do calculations on setting the Subtotal
     @IBAction func subtotalSet(_ sender: Any) {
         doCalculations()
 
     }
-    
+
     // Do calculations on setting the Tip
     @IBAction func tipSet(_ sender: Any) {
         doCalculations()
     }
-    
-    
+
+
     // Code to set the background
     func setMorningMist(){
         topLabel.backgroundColor = UIColor.init(netHex: 0x90BEC6)
@@ -216,19 +230,19 @@ class ViewController: UIViewController {
         midLabel.backgroundColor = UIColor.init(netHex: 0x5261CF)
         bottomLabel.backgroundColor = UIColor.init(netHex: 0x3A4596)
     }
-    
+
     func setSiesta(){
         topLabel.backgroundColor = UIColor.init(netHex: 0xFDABA3)
         midLabel.backgroundColor = UIColor.init(netHex: 0x70514C)
         bottomLabel.backgroundColor = UIColor.init(netHex: 0xDE585D)
     }
-    
 
 
 
 
 
-    
+
+
 
 }
 
