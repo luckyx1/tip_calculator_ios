@@ -10,10 +10,10 @@ Time spent: **20** hours spent in total
 
 The following **required** functionality is complete:
 * [X] User can enter a bill amount, choose a tip percentage, and see the tip and total values.
+* [X] Settings page to change the default tip percentage.
 I updated the code to show split bill and total value
 
 The following **optional** features are implemented:
-* [X] Settings page to change the default tip percentage.
 extra page is to change colors
 * [ ] UI animations
 * [X] Remembering the bill amount across app restarts (if <10mins)
